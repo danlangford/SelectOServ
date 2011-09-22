@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivysettings>
+	<settings defaultResolver="mainchain" />
+	<resolvers>
+		<chain name="mainchain">
+			<ibiblio name="main" m2compatible="true" />
+			<!-- put other repos here -->
+		</chain>
+	</resolvers>
+</ivysettings>
