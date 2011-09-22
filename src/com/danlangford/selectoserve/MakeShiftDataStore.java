@@ -34,6 +34,7 @@ public class MakeShiftDataStore {
 		Collections.sort(list, new Comparator<ServingComp>() {
 			@Override
 			public int compare(ServingComp o1, ServingComp o2) {
+				// notice this is a reverse sort of sorts
 				return o2.getTime().compareTo(o1.getTime());
 			}
 		});
