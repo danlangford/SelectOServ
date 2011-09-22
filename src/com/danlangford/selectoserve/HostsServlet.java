@@ -10,11 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 public class HostsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private MakeShiftDataStore dataStore;
 
-	public HostsServlet(MakeShiftDataStore dataStore) {
-		this.dataStore = dataStore;
-	}
+	public HostsServlet() { }
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +21,7 @@ public class HostsServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getWriter().println("<h1>" + "? hosts greeting ?" + "</h1>");
-		response.getWriter().println("wrote to hosts file <br/> ip=" + ip);
+		response.getWriter().println("// TODO write to hosts file and redirect <br/> ip=" + ip);
 	}
 
 }

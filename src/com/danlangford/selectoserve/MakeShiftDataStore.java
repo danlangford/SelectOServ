@@ -1,6 +1,10 @@
 package com.danlangford.selectoserve;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class MakeShiftDataStore {
 
@@ -24,9 +28,17 @@ public class MakeShiftDataStore {
 		servers.put(server.getIp(), server);
 	}
 
-	public HashMap<String, ServingComp> getServers() {
-		// do any default sorting or whatever
-		return servers;
+	public List<ServingComp> getServers() {
+		List<ServingComp> list = new ArrayList<ServingComp>(servers.values());
+		
+		Collections.sort(list, new Comparator<ServingComp>() {
+			@Override
+			public int compare(ServingComp o1, ServingComp o2) {
+				return o1.getTime().compareTo(o2.getTime());
+			}
+		});
+
+		return list;
 	}
 
 }

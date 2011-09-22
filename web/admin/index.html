@@ -1,1 +1,23 @@
-<h1>welcome to the admin</h1>
+
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>TMD Viewer</title>
+<script type="text/javascript" charset="utf-8"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.get('/list', function(data){
+		var list = data.list
+		for(var i in list){
+			var current = list[i];
+			$('body').append('<a href="/hosts?ip=' + current.ip + '">Name: ' + current.name  + '</a> <span>Time: ' + current.time + '</span><br/>');
+		}
+	}, 'json');
+});
+</script>
+</head>
+<body>
+	<h1>Available Hosts</h1>
+</body>
+</html>

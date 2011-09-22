@@ -1,6 +1,7 @@
 package com.danlangford.selectoserve;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,13 +19,22 @@ public class ListDataServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO this servlet actually needs to
-		// write the selected ip to the hosts file
-		String ip = request.getParameter("ip");
-		response.setContentType("text/html");
+		response.setContentType("application/json");
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().println("<h1>" + "? hosts greeting ?" + "</h1>");
-		response.getWriter().println("wrote to hosts file <br/> ip=" + ip);
+		response.getWriter().print("{\"list\":[");
+		
+		List<ServingComp> data = dataStore.getServers();
+		
+		String json = "";
+		for(ServingComp sc : data) {
+			json += "{\"name\":\""+sc.getName()+"\",\"ip\":\""+sc.getIp()+"\",\"time\":\""+sc.getTime().toString()+"\"},";
+		}
+		
+		if(json.length()>1) {
+			json = json.substring(0,json.length()-1 );
+		}
+		
+		response.getWriter().print(json+"]}");
 	}
 
 }

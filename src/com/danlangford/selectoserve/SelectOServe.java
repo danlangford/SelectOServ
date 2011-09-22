@@ -13,6 +13,10 @@ public class SelectOServe {
 
 	public static void main(String[] args) throws Exception {
 		
+		for(String a : args) {
+			System.out.println(a);
+		}
+		
 		MakeShiftDataStore myDataStore = MakeShiftDataStore.getInstance();
 
 		Server checkIn = new Server();
@@ -54,8 +58,10 @@ public class SelectOServe {
 		
 		ServletContextHandler admServeHand = new ServletContextHandler(
 				ServletContextHandler.SESSIONS);
-		HostsServlet admServlet = new HostsServlet(myDataStore);
+		HostsServlet admServlet = new HostsServlet();
 		admServeHand.addServlet(new ServletHolder(admServlet), "/hosts"); // <- url
+		ListDataServlet admList = new ListDataServlet(myDataStore);
+		admServeHand.addServlet(new ServletHolder(admList), "/list"); // <- url
 
 		HandlerList admHands = new HandlerList();
 		admHands.setHandlers(new Handler[] { admResHand, admServeHand, new DefaultHandler() });
