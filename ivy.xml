@@ -9,9 +9,11 @@
 	<dependencies>
 
 		<!-- getting-up-and-running -->
+		<!-- 
 		<dependency org="org.eclipse.jetty" name="jetty-webapp" rev="7.0.0.M2"/>
 		<dependency org="org.eclipse.jetty" name="jetty-deploy" rev="7.0.0.M2"/>
 		<dependency org="javax.servlet" name="servlet-api" rev="2.5"/>
+		-->
 		
 		<!-- known hard dependencies -->
 		<dependency org="org.eclipse.jetty" name="jetty-server" rev="7.0.0.M2"/>
