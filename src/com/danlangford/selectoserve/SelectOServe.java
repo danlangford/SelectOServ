@@ -6,31 +6,43 @@ import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 public class SelectOServe {
 
 	public static void main(String[] args) throws Exception {
-		Server checkIn = new Server();
 		
+		MakeShiftDataStore myDataStore = MakeShiftDataStore.getInstance();
+
+		Server checkIn = new Server();
+
 		SelectChannelConnector ciConn = new SelectChannelConnector();
 		ciConn.setPort(8181);
 		checkIn.addConnector(ciConn);
 
-		ResourceHandler ciResHand = new ResourceHandler();
-		ciResHand.setWelcomeFiles(new String[] { "index.html" });
+		ResourceHandler ciStaticFiles = new ResourceHandler();
+		ciStaticFiles.setWelcomeFiles(new String[] { "index.html" });
+		ciStaticFiles.setResourceBase("./web/checkIn"); // <- file system
 
-		ciResHand.setResourceBase("./web/checkIn");
+		ServletContextHandler ciServeHand = new ServletContextHandler(
+				ServletContextHandler.SESSIONS);
+		CheckInServlet ciServlet = new CheckInServlet(myDataStore);
+		ciServeHand.addServlet(new ServletHolder(ciServlet), "/checkIn"); // <- url
 
-		HandlerList ciHands = new HandlerList();
-		ciHands.setHandlers(new Handler[] { ciResHand,
+		HandlerList ciHandlers = new HandlerList();
+		ciHandlers.setHandlers(new Handler[] { ciStaticFiles, ciServeHand,
 				new DefaultHandler() });
-		checkIn.setHandler(ciHands);
+		checkIn.setHandler(ciHandlers);
 
 		checkIn.start();
-		//checkIn.join();
-		
+
+		// /////////
+		// ////////
+		// ///////
+
 		Server admin = new Server();
-		
+
 		SelectChannelConnector admConn = new SelectChannelConnector();
 		admConn.setHost("127.0.0.1");
 		admConn.setPort(8080);
@@ -38,16 +50,19 @@ public class SelectOServe {
 
 		ResourceHandler admResHand = new ResourceHandler();
 		admResHand.setWelcomeFiles(new String[] { "index.html" });
-
-		admResHand.setResourceBase("./web/admin");
+		admResHand.setResourceBase("./web/admin"); // <- file system
+		
+		ServletContextHandler admServeHand = new ServletContextHandler(
+				ServletContextHandler.SESSIONS);
+		HostsServlet admServlet = new HostsServlet(myDataStore);
+		admServeHand.addServlet(new ServletHolder(admServlet), "/hosts"); // <- url
 
 		HandlerList admHands = new HandlerList();
-		admHands.setHandlers(new Handler[] { admResHand,
-				new DefaultHandler() });
+		admHands.setHandlers(new Handler[] { admResHand, admServeHand, new DefaultHandler() });
 		admin.setHandler(admHands);
 
 		admin.start();
-		//admin.join();
+		// admin.join();
 	}
 
 }
