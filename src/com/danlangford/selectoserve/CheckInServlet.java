@@ -22,12 +22,13 @@ public class CheckInServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.getWriter().println("<h1>" + "checked in" + "</h1>");
+		response.getWriter().println("<h1>" + "checking in" + "</h1>");
 
 		if (ip != null && name != null) {
 			dataStore.addServer(new ServingComp(ip, name));
-			response.getWriter().println(
-					"wrote to datastore <br/> ip=" + ip + " name=" + name);
+			String msg = "wrote to datastore <br/> ip=" + ip + " name=" + name;
+			response.getWriter().println(msg);
+			System.out.println(msg);
 		} else {
 			response.getWriter().println("<b>sorry i got some <i>NULL</i> data</b>");
 		}

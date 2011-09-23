@@ -21,7 +21,10 @@ public class HostsServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getWriter().println("<h1>" + "? hosts greeting ?" + "</h1>");
-		response.getWriter().println("// TODO write to hosts file and redirect <br/> ip=" + ip);
+		
+		String msg = "// TODO write to hosts file and redirect <br/> ip=" + ip;
+		response.getWriter().println(msg);
+		System.out.println(msg);
 	}
 
 }
